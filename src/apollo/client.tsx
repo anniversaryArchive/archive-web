@@ -1,8 +1,8 @@
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, createHttpLink } from '@apollo/client';
 import { cache } from '../apollo/cache';
 
 const httpLink = createHttpLink({
-    uri: "", // 추가 예정
+    uri: "http://localhost:4000",
 });
 
 export const client = new ApolloClient({
