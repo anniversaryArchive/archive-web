@@ -1,8 +1,7 @@
 import React from "react";
-import "./App.css";
-
 import { ApolloProvider } from "@apollo/client";
 import { client } from '../src/apollo/client';
+import "./App.css";
 
 function App() {
   return (
