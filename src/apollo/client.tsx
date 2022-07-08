@@ -2,7 +2,7 @@ import { ApolloClient, createHttpLink } from '@apollo/client';
 import { cache } from '../apollo/cache';
 
 const httpLink = createHttpLink({
-    uri: "http://localhost:4000",
+    uri: "https://anniversary-archive.herokuapp.com/graphql",
 });
 
 export const client = new ApolloClient({
