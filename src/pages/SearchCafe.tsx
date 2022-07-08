@@ -4,12 +4,7 @@ import Typography from "@mui/material/Typography";
 
 export default function SearchCafe() {
   const location = useLocation();
-
-  const state = location.state as { id: string; name: string };
-  const id = state.id;
-  const name = state.name;
-
-  console.log(state);
+  const {id, name} = location.state as { id: string; name: string };
 
   return (
     <>
