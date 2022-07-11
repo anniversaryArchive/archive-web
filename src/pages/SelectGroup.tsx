@@ -1,6 +1,5 @@
 import React from "react";
-import { Suspense } from "react";
-import { Grid, } from "@mui/material";
+import { Grid } from "@mui/material";
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
 import SelectGroupList from "../components/selectGroupList";
