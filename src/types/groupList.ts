@@ -5,10 +5,10 @@ type Logo = {
   _id: string;
 };
 
-type Groups = {
+type Group = {
   _id: string;
   name: string;
   logo: Logo;
 };
   
-export type { Groups, Logo };
+export type { Group, Logo };

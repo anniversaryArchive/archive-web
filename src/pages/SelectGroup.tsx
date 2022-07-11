@@ -1,8 +1,9 @@
 import React from "react";
-import SelectGroupList from "../components/selectGroupList";
+import { Suspense } from "react";
 import { Grid, } from "@mui/material";
 import CardContent from '@mui/material/CardContent';
 import Typography from "@mui/material/Typography";
+import SelectGroupList from "../components/selectGroupList";
 
 const SelectGroup = () => {
   return (

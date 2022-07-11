@@ -1,18 +1,18 @@
 import React from "react";
 import GROUP_USER from "../apollo/gql/selectGroupList.gql";
-import { Groups } from "../types/groupList"
+import { Group } from "../types/groupList"
 import { useQuery } from "@apollo/client";
 import { Link } from "react-router-dom";
 import { Grid, Box } from "@mui/material";
-import styled from '@emotion/styled'
+import Loading from "../pages/Loading";
 
 const selectGroupList = () => {
   const imgURL = "https://anniversary-archive.herokuapp.com/image/";
-  const {data} = useQuery(GROUP_USER);
+  const {data, loading} = useQuery(GROUP_USER);
+  if (loading) return <Loading />;
 
-  if(data){
-    const nameList: JSX.Element[] = data.groups.map((group:Groups, index:number) =>
-      <Grid key={index} item xs={6} sm={2}>
+  const nameList: JSX.Element[] = data.groups.map((group:Group) =>
+      <Grid key={group._id} item xs={6} sm={2}>
         <Link to="/searchCafe" state={{ id: group._id, name: group.name }}>
           <Box
             component="img"
@@ -35,12 +35,6 @@ const selectGroupList = () => {
         {nameList} 
       </>
     );
-  }
-  
-  return (
-    <>
-    </>
-  );
 };
 
 export default selectGroupList;
