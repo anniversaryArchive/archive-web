@@ -7,7 +7,7 @@ import { Grid, Box } from "@mui/material";
 import Loading from "../pages/Loading";
 
 const selectGroupList = () => {
-  const imgURL = `${process.env.REACT_APP_URL}`+"/image/";
+  const imgURL = `${process.env.REACT_APP_SERVER_URL}`+"/image/";
   const {data, loading} = useQuery(GROUP_USER);
 
   if (loading) return <Loading />;
