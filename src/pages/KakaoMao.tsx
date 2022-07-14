@@ -4,12 +4,10 @@ import React, { useEffect, useRef } from "react";
 
 const { kakao } = window;
 
-const KaKaoMap = () => {
+function KaKaoMap() {
   const container = useRef<HTMLDivElement>(null);
 
   const initMap = () => {
-    console.log(kakao);
-
     const center = new kakao.maps.LatLng(33.36256187769044, 126.52903781775196);
     const options = {
       center,
@@ -23,7 +21,7 @@ const KaKaoMap = () => {
   }, []);
 
   return <MapContainer id="KakaoMap" ref={container} />;
-};
+}
 
 const MapContainer = styled.div`
   width: 100%;
