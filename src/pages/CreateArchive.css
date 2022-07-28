@@ -1,0 +1,6 @@
+.input-white {
+  color: white !important;
+}
+.input-white > input {
+  -webkit-text-fill-color: white !important;
+}
