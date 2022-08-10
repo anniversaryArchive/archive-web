@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { CREATE_ARCHIVE } from "../apollo/gql/archive.gql";
-import { Archive } from "../types/archive"
 import { useMutation } from "@apollo/client";
 import { FormControl, Box, Grid, Button, TextField, Typography } from "@mui/material";
 import DaumPostcode from "react-daum-postcode";
+import { CREATE_ARCHIVE } from "../apollo/gql/archive.gql";
+import { Archive } from "../types/archive"
 
 import "./CreateArchive.css";
 
@@ -18,6 +18,7 @@ async function getLatLngFromAddress (address: String): Promise<{ lat: number, ln
         const lat = result[0].y;
         const lng = result[0].x;
         resolve({ lat: Number(lat), lng: Number(lng) });
+        return;
       }
       reject();
     });
@@ -38,7 +39,7 @@ function CreateArchive() {
 
   // 주소 검색 버튼 클릭 시 
   function onClickSearchPost() {
-    setOpenPostcode(true);
+    setOpenPostcode(!openPostcode);
   }
 
   // Daum post code 주소 선택 시
@@ -59,11 +60,10 @@ function CreateArchive() {
     e.preventDefault();
 
     const requireFields: string[] = ['address', 'archiveName', 'themeName', 'startDate', 'endDate'];
-    const validation: boolean = requireFields.some((field: string) => !(archive as any)[field]);
-    if (validation) { return; }
+    const insufficient: boolean = requireFields.some((field: string) => !(archive as any)[field]);
+    if (insufficient) { return; }
 
     const newArchive: Archive = archive;
-
     try {
       const { lat, lng } = await getLatLngFromAddress(archive.address);
       newArchive.lat = lat;
@@ -71,7 +71,6 @@ function CreateArchive() {
     } catch (error) { throw error; }
     newArchive.address = newArchive.address + detailedAddress;
     addArchive({ variables: { input: newArchive } });
-    console.log('create archive : ', newArchive);
   }
 
   const inputProps = { className: 'input-white' };
