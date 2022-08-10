@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Grid, Box } from "@mui/material";
 import Loading from "../pages/Loading";
 
-const selectGroupList = () => {
+const SelectGroupList = () => {
   const imgURL = `${process.env.REACT_APP_SERVER_URL}`+"/image/";
   const {data, loading} = useQuery(GROUP_USER);
 
@@ -30,7 +30,7 @@ const selectGroupList = () => {
       </Link>
     </Grid>
   );
- 
+
   return (
     <>
       {groupBoxes} 
@@ -38,4 +38,4 @@ const selectGroupList = () => {
   );
 };
 
-export default selectGroupList;
+export default SelectGroupList;

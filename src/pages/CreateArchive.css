@@ -1,0 +1,8 @@
+.input-white {
+  margin-bottom: 10px;
+  color: white !important;
+}
+.input-white > input {
+  -webkit-text-fill-color: white !important;
+  color-scheme: dark;
+}

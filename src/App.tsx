@@ -6,7 +6,8 @@ import { client } from "../src/apollo/client";
 import Layout from "./components/layout";
 import SelectGroupList from "./pages/SelectGroup";
 import SearchCafe from "./pages/SearchCafe";
-import KaKaoMap from "./pages/KakaoMao";
+import KaKaoMap from "./pages/KakaoMap";
+import CreateArchive from "./pages/CreateArchive"
 
 import "./App.css";
 
@@ -20,6 +21,7 @@ function App() {
               <Route path="/" element={<SelectGroupList />} />
               <Route path="/searchCafe" element={<SearchCafe />} />
               <Route path="/cafe" element={<KaKaoMap />} />
+              <Route path="/createArchive" element={<CreateArchive />} />
             </Routes>
           </Router>
         </Layout>
