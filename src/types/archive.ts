@@ -4,13 +4,13 @@ type Archive_ = {
   lng: number;
   archiveName: string;
   themeName: string;
-  organizer: string;
+  organizer?: string;
   address: string;
   startDate: Date;
   endDate: Date;
-  images: Array<String>;
-  phoneNumber: string;
-  link: string;
+  images?: Array<String>;
+  phoneNumber?: string;
+  link?: string;
 };
 
 export type Archive = Archive_;
