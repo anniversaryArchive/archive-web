@@ -9,6 +9,21 @@ import "./CreateArchive.css";
 
 const { kakao } = window;
 
+// 주소를 받아 해당 주소의 좌표값을 반환하는 함수 
+async function getLatLngFromAddress (address: String): Promise<{ lat: number, lng: number }> {
+  return new Promise((resolve, reject) => {
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, function (result: any, status: any) {
+      if (status === kakao.maps.services.Status.OK) {
+        const lat = result[0].y;
+        const lng = result[0].x;
+        resolve({ lat: Number(lat), lng: Number(lng) });
+      }
+      reject();
+    });
+  });
+}
+
 function CreateArchive() {
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const [archive, setArchive] = useState<Archive>({} as Archive);
@@ -20,34 +35,22 @@ function CreateArchive() {
     }
   });
 
+
+  // 주소 검색 버튼 클릭 시 
   function onClickSearchPost() {
     setOpenPostcode(true);
   }
 
-  // 주소 선택 이벤트
+  // Daum post code 주소 선택 시
   function selectAddress (data: { address: string }) {
     setArchive((archive) => ({
       ... archive,
       address: data.address
     }));
-    
     setOpenPostcode(false);
   }
 
-  async function getLatLngFromAddress (address: String): Promise<{ lat: number, lng: number }> {
-    return new Promise((resolve, reject) => {
-      const geocoder = new kakao.maps.services.Geocoder();
-      geocoder.addressSearch(address, function (result: any, status: any) {
-        if (status === kakao.maps.services.Status.OK) {
-          const lat = result[0].y;
-          const lng = result[0].x;
-          resolve({ lat: Number(lat), lng: Number(lng) });
-        }
-        reject();
-      });
-    });
-  }
-
+  // Archive field TextField onChange 시 
   function onChangeArchiveValue (key: string, value: string) {
     setArchive((archive) => ({ ... archive, [key]: value || '' }));
   }
@@ -55,8 +58,8 @@ function CreateArchive() {
   async function createArchive (e: any) {
     e.preventDefault();
 
-    const requireFields = ['address', 'archiveName', 'themeName', 'startDate', 'endDate'];
-    const validation = requireFields.some((field: string) => !(archive as any)[field]);
+    const requireFields: string[] = ['address', 'archiveName', 'themeName', 'startDate', 'endDate'];
+    const validation: boolean = requireFields.some((field: string) => !(archive as any)[field]);
     if (validation) { return; }
 
     const newArchive: Archive = archive;
@@ -66,7 +69,7 @@ function CreateArchive() {
       newArchive.lat = lat;
       newArchive.lng = lng;
     } catch (error) { throw error; }
-
+    newArchive.address = newArchive.address + detailedAddress;
     addArchive({ variables: { input: newArchive } });
     console.log('create archive : ', newArchive);
   }
