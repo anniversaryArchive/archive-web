@@ -9,6 +9,22 @@ import "./CreateArchive.css";
 
 const { kakao } = window;
 
+// Archive Input Fields
+const inputTypes: {
+  key: string,
+  label: string,
+  required: boolean,
+  type?: string,
+}[] = [
+  { key: 'archiveName', label: '카페 이름', required: true },
+  { key: 'themeName', label: '카페 테마 이름', required: true },
+  { key: 'organizer', label: '주최자 트위터 아이디', required: false },
+  { type: 'date', key: 'startDate', label: '시작 일자', required: true },
+  { type: 'date', key: 'endDate', label: '종료 일자', required: true },
+  { key: 'phoneNumber', label: '전화번호', required: false },
+  { key: 'link', label: 'Link', required: false },
+];
+
 // 주소를 받아 해당 주소의 좌표값을 반환하는 함수 
 async function getLatLngFromAddress (address: String): Promise<{ lat: number, lng: number }> {
   return new Promise((resolve, reject) => {
@@ -59,8 +75,7 @@ function CreateArchive() {
   async function createArchive (e: any) {
     e.preventDefault();
 
-    const requireFields: string[] = ['address', 'archiveName', 'themeName', 'startDate', 'endDate'];
-    const insufficient: boolean = requireFields.some((field: string) => !(archive as any)[field]);
+    const insufficient: boolean = inputTypes.some((field) => field.required && !(archive as any)[field.key]);
     if (insufficient) { return; }
 
     const newArchive: Archive = archive;
@@ -97,45 +112,17 @@ function CreateArchive() {
             </Grid>
           </Grid>
 
-          {/* 카페 이름 입력 */}
-          <TextField label="카페 이름" value={archive.archiveName || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} error={!archive.archiveName}
-            onChange={(e) => onChangeArchiveValue('archiveName', e.target.value)} />
-
-          {/* 카페 테마 이름 입력 */}
-          <TextField label="카페 테마 이름" value={archive.themeName || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} error={!archive.themeName}
-            onChange={(e) => onChangeArchiveValue('themeName', e.target.value)} />
-
-          {/* 주최자 트위터 아이디 입력 */}
-          <TextField label="주최자 트위터 아이디" value={archive.organizer || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true}
-            onChange={(e) => onChangeArchiveValue('organizer', e.target.value)} />
-
-          {/* 카페 시작 일자 */}
-          <TextField label="시작 일자" type="date" value={archive.startDate || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} error={!archive.startDate}
-            onChange={(e) => onChangeArchiveValue('startDate', e.target.value)} />
-
-          {/* 카페 종료 일자 */}
-          <TextField label="종료 일자" type="date" value={archive.endDate || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} error={!archive.endDate}
-            onChange={(e) => onChangeArchiveValue('endDate', e.target.value)} />
-
-          {/* 번호 입력 */}
-          <TextField label="전화번호" value={archive.phoneNumber || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} onChange={(e) => onChangeArchiveValue('phoneNumber', e.target.value)} />
-
-          {/* 공지 Link */}
-          <TextField label="Link" value={archive.link || ''}
-            InputProps={inputProps} InputLabelProps={inputLabelProps}
-            fullWidth={true} onChange={(e) => onChangeArchiveValue('link', e.target.value)} />
+          {
+            inputTypes.map((inputType, index) => {
+              return (<div key={`archive-input-${index}`}>
+                <TextField type={inputType.type || 'text'} label={inputType.label}
+                  value={(archive as any)[inputType.key] || ''}
+                  InputProps={inputProps} InputLabelProps={inputLabelProps}
+                  fullWidth={true} error={inputType.required && !(archive as any)[inputType.key]}
+                  onChange={(e) => onChangeArchiveValue(inputType.key, e.target.value)} />
+              </div>);
+            })
+          }
 
           <Button variant="contained" type="submit" fullWidth={true}>생성</Button>
         </FormControl>
